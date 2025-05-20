@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automotive Intelligence Hub: Next-Gen Diagnostics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        :root {
+            --primary-bg: #1A212E; /* Dark blue-grey, inspired by diagnostic tools */
+            --secondary-bg: #2C3E50; /* Slightly lighter for sections */
+            --accent-blue: #007bff; /* Bosch-like blue */
+            --accent-blue-hover: #0056b3;
+            --text-light: #E0E0E0; /* Light grey for main text */
+            --text-dark: #333;
+            --border-color: #4CAF50; /* Green for active/success */
+            --danger-color: #dc3545; /* Red for warnings/errors */
+            --input-bg: #34495E; /* Darker input fields */
+            --input-border: #4A607C;
+            --input-focus: #0099ff;
+            --button-bg: #007bff;
+            --button-hover-bg: #0056b3;
+            --step-active-bg: #0056b3; /* Darker blue for active step */
+            --step-completed-bg: #28a745; /* Green for completed step */
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--text-light);
+            font-weight: 700;
+        }
+
+        p {
+            color: var(--text-light);
+        }
+
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-blue-hover);
+        }
+
+        button {
+            background-color: var(--button-bg);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--button-hover-bg);
+        }
+
+        select, input[type="text"], input[type="number"], textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            color: var(--text-light);
+            font-size: 1em;
+        }
+
+        select:focus, input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+            border-color: var(--input-focus);
+            outline: none;
+        }
+       
+        textarea {
+            resize: vertical; /* Allow vertical resizing */
+            min-height: 80px;
+        }
+
+        /* Layout - Landing Page */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #landing-page {
+            text-align: center;
+            padding: 80px 20px;
+            background-color: var(--primary-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #landing-page .logo {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+
+        #landing-page h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        #landing-page .tagline {
+            font-size: 1.4em;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+
+        .problem-solution-section {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 60px;
+            text-align: left;
+        }
+
+        .problem-solution-item {
+            background-color: var(--secondary-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            flex: 1;
+            min-width: 300px;
+            max-width: 45%;
+            box-sizing: border-box;
+        }
+
+        .problem-solution-item h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: var(--accent-blue);
+        }
+
+        .benefits-section {
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .benefits-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            color: var(--accent-blue);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            text-align: left;
+        }
+
+        .benefit-item {
+            background-color: var(--secondary-bg);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .benefit-item h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        .how-it-works-section {
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .how-it-works-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            color: var(--accent-blue);
+        }
+
+        .how-it-works-steps {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .how-it-works-step {
+            background-color: var(--secondary-bg);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            flex: 1;
+            min-width: 250px;
+            max-width: 23%;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .how-it-works-step::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: var(--accent-blue);
+            opacity: 0.5;
+        }
+
+        .how-it-works-steps div:last-child::after {
+            content: none; /* No arrow after the last step */
+        }
+       
+        .how-it-works-step h3 {
+            font-size: 1.6em;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        .contact-section {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .contact-section p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        /* Diagnostic Demo Page */
+        #diagnostic-demo {
+            display: none; /* Hidden by default */
+            min-height: 100vh;
+            background-color: var(--primary-bg);
+            color: var(--text-light);
+        }
+
+        .demo-layout {
+            display: flex;
+            min-height: 100vh;
+            border: 1px solid var(--accent-blue); /* Outer border */
+            border-radius: 8px;
+            margin: 20px;
+            overflow: hidden; /* Ensure content stays within borders */
+        }
+
+        .input-panel, .output-panel {
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .input-panel {
+            flex: 0 0 300px; /* Fixed width for input panel */
+            background-color: var(--secondary-bg);
+            border-right: 1px solid var(--input-border);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .input-panel h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: var(--accent-blue);
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 400;
+        }
+
+        .output-panel {
+            flex: 1; /* Takes remaining space */
+            background-color: var(--primary-bg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .output-panel h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: var(--accent-blue);
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--input-border);
+        }
+
+        #diagnosticSteps {
+            flex: 1; /* Allow steps to scroll if needed */
+            overflow-y: auto; /* Enable scrolling for steps */
+            padding-right: 15px; /* Space for scrollbar */
+            margin-right: -15px; /* Offset for padding */
+        }
+
+        .diagnostic-section {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+        .diagnostic-section:last-child {
+            border-bottom: none;
+        }
+
+        .diagnostic-section h3 {
+            color: var(--accent-blue);
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .diagnostic-step {
+            background-color: var(--input-bg);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--input-border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .diagnostic-step.active {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+            background-color: var(--step-active-bg);
+        }
+
+        .diagnostic-step.completed {
+            border-color: var(--border-color);
+            background-color: #384F66; /* Slightly lighter than active for completed */
+            opacity: 0.8;
+        }
+
+        .diagnostic-step p {
+            margin: 0;
+            font-size: 1.05em;
+        }
+
+        .diagnostic-step .sub-step-list {
+            margin-left: 20px;
+            list-style: disc;
+        }
+        .diagnostic-step .sub-step-list li {
+            margin-bottom: 5px;
+        }
+
+        .diagnostic-step .input-area {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.2);
+        }
+       
+        .diagnostic-step .input-area label {
+            font-size: 0.95em;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .diagnostic-step .input-area input[type="radio"] {
+            width: auto; /* Reset width for radio buttons */
+            margin-right: 5px;
+        }
+        .diagnostic-step .input-area .radio-group label {
+            display: inline-block;
+            margin-right: 15px;
+            margin-bottom: 0; /* Override default for radio */
+        }
+        .diagnostic-step .input-area .radio-group input {
+            margin-top: 0; /* Align with label */
+            vertical-align: middle;
+        }
+
+        .diagnostic-step .action-button {
+            margin-top: 15px;
+            align-self: flex-end; /* Push button to the right */
+            width: auto; /* Button doesn't take full width */
+            padding: 8px 15px;
+            font-size: 0.9em;
+        }
+
+        .diagnostic-step .note {
+            font-style: italic;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 5px;
+        }
+
+        .diagnostic-step .condition {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: rgba(0, 123, 255, 0.1);
+            border-left: 3px solid var(--accent-blue);
+            font-size: 0.95em;
+        }
+
+        #finalMessage {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--border-color);
+            color: white;
+            font-size: 1.2em;
+            text-align: center;
+            border-radius: 8px;
+            display: none; /* Hidden until diagnostic complete */
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 900px) {
+            #landing-page h1 {
+                font-size: 2.5em;
+            }
+            .problem-solution-item {
+                max-width: 80%; /* Stack vertically on smaller screens */
+            }
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            .how-it-works-step {
+                max-width: 45%; /* Two columns */
+            }
+            .how-it-works-step::after {
+                content: none; /* Remove arrows on smaller screens */
+            }
+            .demo-layout {
+                flex-direction: column; /* Stack panels vertically */
+                margin: 10px;
+            }
+            .input-panel {
+                flex: none;
+                width: auto; /* Full width */
+                border-right: none;
+                border-bottom: 1px solid var(--input-border);
+            }
+            .output-panel {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            #landing-page h1 {
+                font-size: 2em;
+            }
+            #landing-page .tagline {
+                font-size: 1.2em;
+            }
+            .problem-solution-item, .how-it-works-step {
+                max-width: 95%; /* Full width on very small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <section id="landing-page">
+        <div class="container">
+            <div class="logo">Automotive Intelligence Hub</div>
+            <h1>Revolutionizing Diagnostics for Bosch</h1>
+            <p class="tagline">Seamlessly integrating expert, step-by-step guidance directly into your diagnostic tools, empowering mechanics and enhancing workshop efficiency.</p>
+            <button onclick="showDemo()">Experience the Interactive Demo</button>
+
+            <div class="problem-solution-section">
+                <div class="problem-solution-item">
+                    <h3>The Problem</h3>
+                    <p>In today's complex automotive landscape, mechanics face a constant challenge: moving beyond a simple error code to a precise, efficient repair. Hours are often lost manually searching for diagnostic steps, cross-referencing outdated manuals, or relying on ad-hoc online videos like YouTube.</p>
+                    <p><em>As highlighted by a seasoned mechanic in Croatia, the current workflow often involves jumping from a Bosch diagnostic tool to external sources, followed by handwritten notes – a process ripe for delays and inconsistencies.</em></p>
+                </div>
+                <div class="problem-solution-item">
+                    <h3>Your Solution: The AI Hub</h3>
+                    <p>Imagine if every diagnostic code in your Bosch tool instantly led to a clear, interactive, step-by-step guide for resolution. The <strong>Automotive Intelligence Hub</strong> makes this a reality.</p>
+                    <p>Our API integrates directly with your existing software, transforming basic error codes into dynamic, guided repair workflows tailored for specific vehicle makes and models.</p>
+                </div>
+            </div>
+
+            <div class="benefits-section">
+                <h2>Key Benefits for Bosch</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <h3>Enhance Your Product Ecosystem</h3>
+                        <p>Provide an unparalleled depth of diagnostic support, making Bosch tools even more indispensable to workshops.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>Drive Workshop Efficiency & Satisfaction</h3>
+                        <p>Drastically cut down diagnostic time, reduce errors, and empower mechanics to achieve first-time fixes more consistently, boosting loyalty to your solutions.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>Unlock New Revenue Streams</h3>
+                        <p>Create opportunities for premium subscription tiers or value-added services by bundling our advanced diagnostic intelligence.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>Future-Proof Your Offering</h3>
+                        <p>Position Bosch at the forefront of diagnostic technology with a clear path towards AI-driven predictive maintenance insights.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="how-it-works-section">
+                <h2>How It Works</h2>
+                <div class="how-it-works-steps">
+                    <div class="how-it-works-step">
+                        <h3>1. Code Detected</h3>
+                        <p>Bosch diagnostic tool identifies an error code (e.g., P0420).</p>
+                    </div>
+                    <div class="how-it-works-step">
+                        <h3>2. AI Hub Query</h3>
+                        <p>Your tool securely sends the code, make, model, and year to our API.</p>
+                    </div>
+                    <div class="how-it-works-step">
+                        <h3>3. Guided Steps</h3>
+                        <p>Our API instantly returns precise, interactive, step-by-step procedures to your screen.</p>
+                    </div>
+                    <div class="how-it-works-step">
+                        <h3>4. Dynamic Guidance</h3>
+                        <p>Based on mechanic inputs, the steps adapt, ensuring the most efficient path to resolution.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <p>Ready to explore a partnership that elevates automotive diagnostics?</p>
+                <p><a href="mailto:your.email@example.com">your.email@example.com</a> | <a href="https://www.linkedin.com/in/yourprofile" target="_blank">Your LinkedIn Profile</a></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="diagnostic-demo">
+        <div class="demo-layout">
+            <div class="input-panel">
+                <h2>Vehicle Details</h2>
+                <div class="input-group">
+                    <label for="manufacturer">Manufacturer:</label>
+                    <select id="manufacturer">
+                        <option value="peugeot">Peugeot (Demo Only)</option>
+                        <option value="audi" disabled>Audi (Coming Soon)</option>
+                        <option value="bmw" disabled>BMW (Coming Soon)</option>
+                        <option value="mercedes" disabled>Mercedes (Coming Soon)</option>
+                        <option value="vw" disabled>VW (Coming Soon)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="model">Model:</label>
+                    <select id="model">
+                        <option value="308">308 (2014-2021)</option>
+                        <option value="208">208 (2012-2019)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="error-code">Error Code (DTC):</label>
+                    <input type="text" id="error-code" value="P0420" placeholder="e.g., P0420">
+                </div>
+                <button id="runDiagnosticBtn">Run Diagnostic</button>
+            </div>
+
+            <div class="output-panel">
+                <h2 id="outputHeader">Diagnostic Procedure</h2>
+                <div id="diagnosticSteps">
+                    <p style="text-align: center; color: rgba(255,255,255,0.6); margin-top: 50px;">
+                        Select vehicle details and click "Run Diagnostic" to begin.
+                    </p>
+                </div>
+                <div id="finalMessage">
+                    Diagnostic procedure complete!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // --- DATA SECTION (Your P0420 JSON) ---
+        const diagnosticData = {
+            "P0420_peugeot_308": {
+                "error_code": "P0420",
+                "make": "Peugeot",
+                "model": "308",
+                "year_range": "2014-2021",
+                "engine_type": "1.2 PureTech EB2 turbocharged",
+                "description": "Catalyst System Efficiency Below Threshold (Bank 1)",
+                "test_plan_name": "P0420 – Test Plan (Peugeot 308 1.2 PureTech)",
+                "diagnostic_sections": [
+                    {
+                        "section_title": "1. Vehicle Intake",
+                        "steps": [
+                            {
+                                "step_id": "1.1", // Added unique ID for JS tracking
+                                "instruction": "Confirm engine type: 1.2 EB2 turbocharged.",
+                                "input_required": true,
+                                "input_type": "checkbox",
+                                "prompt": "Confirmed?"
+                            },
+                            {
+                                "step_id": "1.2",
+                                "instruction": "Confirm stored DTC: P0420.",
+                                "input_required": true,
+                                "input_type": "checkbox",
+                                "prompt": "Confirmed P0420?"
+                            },
+                            {
+                                "step_id": "1.3",
+                                "instruction": "Note freeze frame data: Engine temp, RPM, load, throttle %, fuel trims.",
+                                "input_required": true,
+                                "input_type": "textarea", // Changed to textarea for more input
+                                "prompt": "Record freeze frame data (optional for diagnosis, good for documentation):"
+                            },
+                            {
+                                "step_id": "1.4",
+                                "instruction": "Record customer complaint: oil usage? smoke? prior codes?",
+                                "input_required": true,
+                                "input_type": "textarea",
+                                "prompt": "Record customer complaint details:"
+                            }
+                        ]
+                    },
+                    {
+                        "section_title": "2. Preliminary Checks",
+                        "note": "Ensure engine is at operating temperature for best results.",
+                        "steps": [
+                            {
+                                "step_id": "2.1",
+                                "instruction": "Clear any additional DTCs (misfires, O2 sensor, rich/lean) and check if P0420 is the only code remaining.",
+                                "input_required": true,
+                                "input_type": "checkbox",
+                                "prompt": "Only P0420 remaining after clearing?"
+                            },
+                            {
+                                "step_id": "2.2",
+                                "instruction": "Check engine oil level – excessive oil loss may indicate burning.",
+                                "input_required": true,
+                                "input_type": "radio",
+                                "options": [ // CORRECTED: Now uses objects for value/label
+                                    {"value": "normal", "label": "Normal"},
+                                    {"value": "low", "label": "Low (excessive loss)"},
+                                    {"value": "other", "label": "Other"}
+                                ],
+                                "prompt": "Engine oil level:"
+                            },
+                            {
+                                "step_id": "2.3",
+                                "instruction": "Verify engine reaches 90°C (use scan tool or temp gun).",
+                                "input_required": true,
+                                "input_type": "number",
+                                "unit": "°C",
+                                "prompt": "Engine operating temperature reached (°C):"
+                            },
+                            {
+                                "step_id": "2.4",
+                                "instruction": "Inspect exhaust system for leaks, damage, or loose connections:",
+                                "sub_steps": [
+                                    {"instruction": "Flex pipe (common failure point)", "input_required": true, "input_type": "checkbox", "prompt": "Flex pipe inspected (No issues found)?"},
+                                    {"instruction": "Manifold to turbo flange", "input_required": true, "input_type": "checkbox", "prompt": "Manifold to turbo flange inspected (No issues found)?"},
+                                    {"instruction": "Gaskets and welds", "input_required": true, "input_type": "checkbox", "prompt": "Gaskets and welds inspected (No issues found)?"}
+                                ],
+                                "note": "If any issues found, repair them first and re-evaluate DTC P0420."
+                            }
+                        ]
+                    },
+                    {
+                        "section_title": "3. O2 Sensor Functional Test (Scan Tool / Scope)",
+                        "note": "Warm engine to full operating temp before proceeding.",
+                        "steps": [
+                            {
+                                "step_id": "3.1",
+                                "instruction": "Monitor live O2 sensor voltages:",
+                                "sub_steps": [
+                                    {"instruction": "Pre-cat (Sensor 1): should oscillate 0.1–0.9V.", "input_required": true, "input_type": "text", "prompt": "Enter O2 Sensor 1 (Bank 1) voltage readings (e.g., 'oscillating 0.1-0.9V' or specific range):"},
+                                    {"instruction": "Post-cat (Sensor 2): should stay ~0.6V, minimal fluctuation.", "input_required": true, "input_type": "text", "prompt": "Enter O2 Sensor 2 (Bank 1) voltage readings (e.g., 'steady ~0.6V' or specific value):"}
+                                ],
+                                "note": "Poor O2 sensor readings here may indicate sensor fault, not cat fault. Diagnose O2 sensors if values are out of spec before proceeding."
+                            },
+                            {
+                                "step_id": "3.2",
+                                "instruction": "Compare both sensors (Sensor 1 and Sensor 2).",
+                                "input_required": true,
+                                "input_type": "radio",
+                                "options": [
+                                    {"value": "mimic", "label": "Sensors mimic each other (cat inefficiency confirmed)"},
+                                    {"value": "normal", "label": "Sensor 1 oscillates, Sensor 2 is steady ~0.6V"},
+                                    {"value": "other", "label": "Other/Abnormal"}
+                                ],
+                                "prompt": "Comparison result:"
+                            },
+                            {
+                                "step_id": "3.3",
+                                "instruction": "Check response time:",
+                                "sub_steps": [
+                                    {"instruction": "Snap throttle test – Sensor 1 should react immediately.", "input_required": true, "input_type": "checkbox", "prompt": "Sensor 1 reaction confirmed?"},
+                                    {"instruction": "Sensor 2 should lag slightly and stabilize.", "input_required": true, "input_type": "checkbox", "prompt": "Sensor 2 lag and stabilization confirmed?"}
+                                ],
+                                "note": "Slow response indicates possible aging O2 sensors or contamination."
+                            }
+                        ]
+                    },
+                    {
+                        "section_title": "4. Fuel System & Combustion Check",
+                        "steps": [
+                            {
+                                "step_id": "4.1",
+                                "instruction": "Check Short Term Fuel Trim (STFT) and Long Term Fuel Trim (LTFT) using scan tool.",
+                                "input_required": true,
+                                "input_type": "text",
+                                "prompt": "Enter STFT and LTFT values (e.g., 'STFT: +5%, LTFT: -2%'):",
+                                "expected_range_note": "Ideal: within ±10% for both. Use numeric values like 'STFT: +15, LTFT: -5' for conditions."
+                            },
+                            {
+                                "step_id": "4.2",
+                                "instruction": "Based on Fuel Trim Values:",
+                                "conditional_steps": [
+                                    {
+                                        "condition_key": "fuel_trims", // Key to check for this condition
+                                        "condition_value_pattern": "positive_high", // Custom pattern for condition
+                                        "instruction": "Diagnose for intake leaks (vacuum hoses, manifold gaskets, PCV valve) or fuel delivery issues (low fuel pressure, clogged injectors). Rectify and re-evaluate P0420."
+                                    },
+                                    {
+                                        "condition_key": "fuel_trims",
+                                        "condition_value_pattern": "negative_high",
+                                        "instruction": "Diagnose for rich conditions (leaking injectors, high fuel pressure, faulty purge valve, contaminated oil). Rectify and re-evaluate P0420."
+                                    },
+                                    {
+                                        "condition_key": "fuel_trims",
+                                        "condition_value_pattern": "normal",
+                                        "instruction": "Proceed with next steps. Fuel system likely not the primary cause of P0420."
+                                    }
+                                ]
+                            },
+                            {
+                                "step_id": "4.3",
+                                "instruction": "Visual inspect:",
+                                "sub_steps": [
+                                    {"instruction": "Spark plugs (for oil/carbon fouling, correct gap)", "input_required": true, "input_type": "checkbox", "prompt": "Spark plugs inspected (No issues found)?"},
+                                    {"instruction": "Injectors (for leaks or clogging)", "input_required": true, "input_type": "checkbox", "prompt": "Injectors inspected (No leaks/clogs found)?"}
+                                ],
+                                "note": "Fouled plugs/leaking injectors can cause misfires and impact catalyst efficiency. Rectify if found."
+                            },
+                            {
+                                "step_id": "4.4",
+                                "instruction": "Optional: Check cylinder balance or misfire counter via DiagBox.",
+                                "input_required": true,
+                                "input_type": "text",
+                                "prompt": "Results of cylinder balance/misfire counter (if performed):"
+                            }
+                        ]
+                    },
+                    {
+                        "section_title": "5. Catalytic Converter Evaluation",
+                        "steps": [
+                            {
+                                "step_id": "5.1",
+                                "instruction": "Tap test for rattling or loose substrate inside the catalytic converter.",
+                                "input_required": true,
+                                "input_type": "radio",
+                                "options": [
+                                    {"value": "rattling", "label": "Rattling heard (damaged substrate)"},
+                                    {"value": "no_rattling", "label": "No rattling (substrate appears intact)"},
+                                    {"value": "unsure", "label": "Unsure"}
+                                ],
+                                "prompt": "Tap test result:"
+                            },
+                            {
+                                "step_id": "5.2",
+                                "instruction": "Thermal test using an IR gun:",
+                                "sub_steps": [
+                                    {"instruction": "Idle engine for 5+ minutes.", "input_required": true, "input_type": "checkbox", "prompt": "Engine idled for 5+ mins?"},
+                                    {"instruction": "Measure catalytic converter inlet temperature.", "input_required": true, "input_type": "number", "unit": "°C", "prompt": "Inlet temp (°C):", "data_key": "inlet_temp"}, // Added data_key for specific storage
+                                    {"instruction": "Measure catalytic converter outlet temperature.", "input_required": true, "input_type": "number", "unit": "°C", "prompt": "Outlet temp (°C):", "data_key": "outlet_temp"} // Added data_key for specific storage
+                                ]
+                            },
+                            {
+                                "step_id": "5.3",
+                                "instruction": "Evaluate Thermal Test Results:",
+                                "conditional_steps": [
+                                    {
+                                        "condition_key": "thermal_test",
+                                        "condition_value_pattern": "normal", // Outlet 50-100 hotter than inlet
+                                        "instruction": "Catalytic converter appears to be functionally converting exhaust gases. Re-evaluate previous steps or consider ECU issues. (Less likely cat failure based on this test alone)"
+                                    },
+                                    {
+                                        "condition_key": "thermal_test",
+                                        "condition_value_pattern": "inefficient", // Outlet NOT 50-100 hotter
+                                        "instruction": "Catalytic converter inefficiency or blockage confirmed. Proceed with replacement preparation."
+                                    }
+                                ]
+                            },
+                            {
+                                "step_id": "5.4",
+                                "instruction": "If substrate is damaged (from tap test) or readings confirm cat inefficiency (from O2/Thermal tests) → prepare for replacement.",
+                                "input_required": true,
+                                "input_type": "checkbox",
+                                "prompt": "Proceeding with catalytic converter replacement?"
+                            }
+                        ]
+                    },
+                    {
+                        "section_title": "6. ECU & Software Check",
+                        "steps": [
+                            {
+                                "step_id": "6.1",
+                                "instruction": "Connect DiagBox → check for Technical Service Bulletins (TSBs) or calibration updates related to P0420 or catalyst efficiency.",
+                                "input_required": true,
+                                "input_type": "radio",
+                                "options": [
+                                    {"value": "tsb_found", "label": "TSB/Update found"},
+                                    {"value": "no_tsb", "label": "No TSB/Update found"}
+                                ],
+                                "prompt": "TSB/Calibration update status:"
+                            },
+                            {
+                                "step_id": "6.2",
+                                "instruction": "Check ECU version and software release date.",
+                                "input_required": true,
+                                "input_type": "text",
+                                "prompt": "ECU Version / Software Date:"
+                            },
+                            {
+                                "step_id": "6.3",
+                                "instruction": "If update available: perform ECU reprogramming as per PSA guidelines.",
+                                "conditional_steps": [
+                                    {
+                                        "condition_key": "ecu_update_status",
+                                        "condition_value_pattern": "performed", // Based on TSB found and update performed
+                                        "instruction": "Reprogramming complete. Proceed to post-repair verification."
+                                    },
+                                    {
+                                        "condition_key": "ecu_update_status",
+                                        "condition_value_pattern": "not_performed", // No TSB or not performed
+                                        "instruction": "Proceed to post-repair verification if previous issues were addressed, otherwise re-evaluate earlier diagnostic steps."
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "section_title": "7. Post-Repair Verification (If Applicable)",
+                        "steps": [
+                            {
+                                "step_id": "7.1",
+                                "instruction": "Clear DTCs and reset adaptations (e.g., fuel trim, O2 sensor adaptations).",
+                                "input_required": true,
+                                "input_type": "checkbox",
+                                "prompt": "DTCs cleared and adaptations reset?"
+                            },
+                            {
+                                "step_id": "7.2",
+                                "instruction": "Perform road test with OBD monitor readiness:",
+                                "sub_steps": [
+                                    {"instruction": "Include: cruise, acceleration, deceleration, idle (drive cycle).", "input_required": true, "input_type": "checkbox", "prompt": "Road test completed covering various driving conditions?"}
+                                ]
+                            },
+                            {
+                                "step_id": "7.3",
+                                "instruction": "Recheck O2 sensor values post-drive for normal operation (Sensor 1 oscillating, Sensor 2 steady ~0.6V).",
+                                "input_required": true,
+                                "input_type": "text",
+                                "prompt": "Post-drive O2 sensor readings:"
+                            },
+                            {
+                                "step_id": "7.4",
+                                "instruction": "Scan again: confirm P0420 has not returned and all monitors are complete/ready.",
+                                "input_required": true,
+                                "input_type": "radio",
+                                "options": [
+                                    {"value": "success", "label": "P0420 not returned & Monitors Complete"},
+                                    {"value": "returned", "label": "P0420 returned"},
+                                    {"value": "monitors_incomplete", "label": "Monitors not complete"}
+                                ],
+                                "prompt": "Final scan result:"
+                            },
+                            {
+                                "step_id": "7.5",
+                                "instruction": "If P0420 has not returned and monitors are complete, repair is successful. If P0420 returned, re-evaluate test plan from the beginning.",
+                                "note": "End of diagnostic for P0420."
+                            }
+                        ]
+                    }
+                ]
+            }
+            // Add more diagnostic data entries here for other codes/models as needed
+            // Example: "P0171_peugeot_208": { ... }
+        };
+
+        // --- JAVASCRIPT LOGIC ---
+        let currentDiagnosticProcedure = null;
+        let currentSectionIndex = 0;
+        let currentStepInGlobalList = 0; // Tracks overall step index for highlighting
+        let allStepsFlattened = []; // A flat array of all steps for easier global tracking
+
+        const landingPage = document.getElementById('landing-page');
+        const diagnosticDemo = document.getElementById('diagnostic-demo');
+        const runDiagnosticBtn = document.getElementById('runDiagnosticBtn');
+        const diagnosticStepsContainer = document.getElementById('diagnosticSteps');
+        const outputHeader = document.getElementById('outputHeader');
+        const finalMessage = document.getElementById('finalMessage');
+
+        function showDemo() {
+            landingPage.style.display = 'none';
+            diagnosticDemo.style.display = 'flex'; // Use flex for demo layout
+            resetDemo(); // Reset to initial state when showing demo
+        }
+
+        function resetDemo() {
+            diagnosticStepsContainer.innerHTML = `
+                <p style="text-align: center; color: rgba(255,255,255,0.6); margin-top: 50px;">
+                    Select vehicle details and click "Run Diagnostic" to begin.
+                </p>
+            `;
+            outputHeader.textContent = "Diagnostic Procedure";
+            finalMessage.style.display = 'none';
+            currentDiagnosticProcedure = null;
+            currentSectionIndex = 0;
+            currentStepInGlobalList = 0;
+            allStepsFlattened = []; // Clear flattened list
+            completedSteps = {}; // Clear completed steps tracking
+        }
+
+        runDiagnosticBtn.addEventListener('click', () => {
+            const manufacturer = document.getElementById('manufacturer').value;
+            const model = document.getElementById('model').value;
+            const errorCode = document.getElementById('error-code').value.toUpperCase(); // Ensure uppercase
+
+            const dataKey = `${errorCode}_${manufacturer}_${model}`;
+            currentDiagnosticProcedure = diagnosticData[dataKey];
+
+            if (currentDiagnosticProcedure) {
+                outputHeader.textContent = `${currentDiagnosticProcedure.test_plan_name}`;
+                flattenAndRenderDiagnosticSteps();
+            } else {
+                diagnosticStepsContainer.innerHTML = `<p style="color: ${getComputedStyle(document.documentElement).getPropertyValue('--danger-color').trim()}; text-align: center;">Diagnostic data not found for ${errorCode} on ${manufacturer} ${model}.</p>`;
+            }
+        });
+
+        // Flattens the nested steps into a single array for easier global tracking
+        function flattenAndRenderDiagnosticSteps() {
+            allStepsFlattened = [];
+            currentDiagnosticProcedure.diagnostic_sections.forEach(section => {
+                section.steps.forEach(step => {
+                    allStepsFlattened.push(step);
+                });
+            });
+            renderFlattenedSteps();
+        }
+
+        function renderFlattenedSteps() {
+            diagnosticStepsContainer.innerHTML = ''; // Clear previous steps
+            finalMessage.style.display = 'none'; // Hide final message
+
+            allStepsFlattened.forEach((step, globalIndex) => {
+                const sectionDiv = document.createElement('div'); // This is a bit of a hack to keep section titles
+                sectionDiv.classList.add('diagnostic-section');
+                if (globalIndex === getGlobalStepIndex(step.step_id)) { // Only add section title once for the first step of a section
+                    const section = currentDiagnosticProcedure.diagnostic_sections.find(s => s.steps.some(st => st.step_id === step.step_id));
+                    if (section) {
+                        sectionDiv.innerHTML = `<h3>${section.section_title}</h3>`;
+                        if (section.note) {
+                            sectionDiv.innerHTML += `<p class="note">${section.note}</p>`;
+                        }
+                    }
+                }
+               
+                const stepDiv = document.createElement('div');
+                stepDiv.classList.add('diagnostic-step');
+                stepDiv.dataset.stepId = step.step_id;
+
+                let stepContent = `<p><strong>${step.step_id}.</strong> ${step.instruction}</p>`;
+
+                if (step.note) {
+                    stepContent += `<p class="note">${step.note}</p>`;
+                }
+                if (step.expected_range_note) {
+                    stepContent += `<p class="note">Expected: ${step.expected_range_note}</p>`;
+                }
+
+                if (step.sub_steps) {
+                    stepContent += '<ul class="sub-step-list">';
+                    step.sub_steps.forEach(sub => {
+                        stepContent += `<li>${sub.instruction}`;
+                        if (sub.input_required && sub.input_type === 'checkbox') {
+                            // Ensure each sub-step checkbox has a unique name/id if needed, or just data-attribute
+                            stepContent += `<br><label><input type="checkbox" data-parent-step-id="${step.step_id}" data-sub-step-prompt="${sub.prompt}" class="sub-step-checkbox"> ${sub.prompt}</label>`;
+                        } else if (sub.input_required && sub.input_type === 'number') { // For thermal test
+                            stepContent += `<br><label>${sub.prompt} <input type="number" data-parent-step-id="${step.step_id}" data-sub-step-key="${sub.data_key}" class="sub-step-number-input"> ${sub.unit || ''}</label>`;
+                        }
+                        stepContent += `</li>`;
+                    });
+                    stepContent += '</ul>';
+                }
+
+                if (step.conditional_steps) {
+                    // For demo, we just display the conditions. In a real app, only one path would be followed.
+                    step.conditional_steps.forEach(conditional => {
+                        stepContent += `<div class="condition"><strong>Condition:</strong> If ${conditional.condition_key} is '${conditional.condition_value_pattern}'<br><strong>Action:</strong> ${conditional.instruction}</div>`;
+                    });
+                }
+
+                stepDiv.innerHTML = stepContent;
+
+                // Add input area if required and NOT a conditional step (conditional steps don't have direct input here)
+                if (step.input_required && !step.conditional_steps) {
+                    const inputArea = document.createElement('div');
+                    inputArea.classList.add('input-area');
+                    inputArea.innerHTML = `<label for="${step.step_id}-input">${step.prompt}</label>`;
+
+                    let inputElement;
+                    switch (step.input_type) {
+                        case 'text':
+                        case 'number':
+                            inputElement = document.createElement('input');
+                            inputElement.type = step.input_type;
+                            inputElement.id = `${step.step_id}-input`;
+                            if (step.unit) inputElement.placeholder = `Enter value in ${step.unit}`;
+                            break;
+                        case 'textarea':
+                            inputElement = document.createElement('textarea');
+                            inputElement.id = `${step.step_id}-input`;
+                            break;
+                        case 'checkbox':
+                            inputElement = document.createElement('input');
+                            inputElement.type = 'checkbox';
+                            inputElement.id = `${step.step_id}-input`;
+                            break;
+                        case 'radio':
+                            inputElement = document.createElement('div');
+                            inputElement.classList.add('radio-group');
+                            step.options.forEach(option => {
+                                const radioId = `${step.step_id}-${option.value}`;
+                                inputElement.innerHTML += `
+                                    <label>
+                                        <input type="radio" name="${step.step_id}-radio" id="${radioId}" value="${option.value}">
+                                        ${option.label}
+                                    </label>
+                                `;
+                            });
+                            break;
+                    }
+                    if (inputElement) {
+                        inputArea.appendChild(inputElement);
+                    }
+
+                    const submitButton = document.createElement('button');
+                    submitButton.classList.add('action-button');
+                    submitButton.textContent = 'Submit & Continue';
+                    submitButton.dataset.stepId = step.step_id;
+                    submitButton.addEventListener('click', handleStepCompletion);
+                    inputArea.appendChild(submitButton);
+
+                    stepDiv.appendChild(inputArea);
+                }
+
+                // If the section is the first for its global step index, append it, otherwise just the step
+                if (sectionDiv.children.length > 0) { // Check if sectionDiv actually has content
+                    diagnosticStepsContainer.appendChild(sectionDiv);
+                }
+                diagnosticStepsContainer.appendChild(stepDiv);
+            });
+
+            // Highlight the very first step
+            highlightCurrentStep(0);
+        }
+
+        let completedSteps = {}; // Store inputs and completion status for conditional logic
+
+        function highlightCurrentStep(globalIndex) {
+            const allStepDivs = diagnosticStepsContainer.querySelectorAll('.diagnostic-step');
+            if (allStepDivs[globalIndex]) {
+                allStepDivs.forEach((stepDiv, idx) => {
+                    stepDiv.classList.remove('active');
+                    if (idx < globalIndex) {
+                        stepDiv.classList.add('completed');
+                    } else {
+                        stepDiv.classList.remove('completed');
+                    }
+                });
+                allStepDivs[globalIndex].classList.add('active');
+                allStepDivs[globalIndex].scrollIntoView({ behavior: 'smooth', block: 'center' }); // Scroll to view
+            } else if (globalIndex >= allStepDivs.length) {
+                // All steps completed
+                finalMessage.style.display = 'block';
+                diagnosticStepsContainer.innerHTML = ''; // Clear steps for final message
+            }
+        }
+
+
+        // Function to get the global index of a step by its ID
+        function getGlobalStepIndex(stepId) {
+            return allStepsFlattened.findIndex(step => step.step_id === stepId);
+        }
+
+
+        function handleStepCompletion(event) {
+            const button = event.target;
+            const stepId = button.dataset.stepId;
+            const parentStepDiv = button.closest('.diagnostic-step');
+
+            let currentStepData = allStepsFlattened.find(step => step.step_id === stepId);
+
+            if (!currentStepData) {
+                console.error("Step data not found for ID:", stepId);
+                return;
+            }
+
+            let inputValue = null;
+            if (currentStepData.input_required) {
+                const inputElement = parentStepDiv.querySelector(`#${stepId}-input`);
+
+                if (currentStepData.sub_steps && currentStepData.sub_steps.some(s => s.input_required)) {
+                    // Handle sub-step inputs (e.g., checkboxes, thermal test numbers)
+                    currentStepData.sub_steps.forEach(sub => {
+                        if (sub.input_type === 'checkbox') {
+                            const subCheckbox = parentStepDiv.querySelector(`input[data-parent-step-id="${stepId}"][data-sub-step-prompt="${sub.prompt}"]`);
+                            if (subCheckbox) {
+                                completedSteps[`${stepId}_${sub.data_key || sub.prompt}`] = subCheckbox.checked; // Store boolean
+                            }
+                        } else if (sub.input_type === 'number') { // Thermal test
+                            const subNumberInput = parentStepDiv.querySelector(`input[data-parent-step-id="${stepId}"][data-sub-step-key="${sub.data_key}"]`);
+                            if (subNumberInput) {
+                                completedSteps[`${stepId}_${sub.data_key}`] = parseFloat(subNumberInput.value); // Store number
+                            }
+                        }
+                    });
+                    // For overall completion of a sub-step group, just mark parent as true if all inputs were gathered
+                    inputValue = true; // Assume collected for all sub-steps
+                }
+                else if (inputElement) { // Direct input for the main step
+                     if (inputElement.type === 'checkbox') {
+                        inputValue = inputElement.checked;
+                    } else if (inputElement.type === 'radio') {
+                        const selectedRadio = parentStepDiv.querySelector(`input[name="${stepId}-radio"]:checked`);
+                        inputValue = selectedRadio ? selectedRadio.value : null;
+                    } else {
+                        inputValue = inputElement.value;
+                    }
+                    completedSteps[stepId] = inputValue; // Store the input value
+                }
+            } else {
+                completedSteps[stepId] = true; // Mark as completed if no input needed
+            }
+
+            // --- Conditional Logic Evaluation (for demonstration) ---
+            // In a real API, the server would evaluate conditions and return next steps.
+            // Here, we'll just log what would happen based on the inputs gathered.
+            if (currentStepData.conditional_steps) {
+                let conditionMet = false;
+                for (const conditionalStep of currentStepData.conditional_steps) {
+                    let evaluationResult = false;
+
+                    if (conditionalStep.condition_key === "fuel_trims") {
+                        const fuelTrimInput = completedSteps['4.1'];
+                        if (fuelTrimInput) {
+                            const stftMatch = fuelTrimInput.match(/STFT:\s*([+-]?\d+)/);
+                            const ltftMatch = fuelTrimInput.match(/LTFT:\s*([+-]?\d+)/);
+                            if (stftMatch && ltftMatch) {
+                                const stft = parseInt(stftMatch[1]);
+                                const ltft = parseInt(ltftMatch[1]);
+
+                                if (conditionalStep.condition_value_pattern === "positive_high" && (stft > 10 || ltft > 10)) {
+                                    evaluationResult = true;
+                                } else if (conditionalStep.condition_value_pattern === "negative_high" && (stft < -10 || ltft < -10)) {
+                                    evaluationResult = true;
+                                } else if (conditionalStep.condition_value_pattern === "normal" && (stft >= -10 && stft <= 10 && ltft >= -10 && ltft <= 10)) {
+                                    evaluationResult = true;
+                                }
+                            }
+                        }
+                    } else if (conditionalStep.condition_key === "thermal_test") {
+                        const inletTemp = completedSteps['5.2_inlet'];
+                        const outletTemp = completedSteps['5.2_outlet'];
+
+                        if (!isNaN(inletTemp) && !isNaN(outletTemp)) {
+                             const tempDifference = outletTemp - inletTemp;
+                            if (conditionalStep.condition_value_pattern === "normal" && tempDifference >= 50 && tempDifference <= 100) {
+                                evaluationResult = true;
+                            } else if (conditionalStep.condition_value_pattern === "inefficient" && (tempDifference < 50 || tempDifference > 100)) {
+                                evaluationResult = true;
+                            }
+                        }
+                    } else if (conditionalStep.condition_key === "ecu_update_status") {
+                        const tsbStatus = completedSteps['6.1']; // "tsb_found" or "no_tsb"
+                        const updatePerformedInput = parentStepDiv.querySelector(`#${stepId}-input`); // This is the checkbox for 6.3
+
+                        if (conditionalStep.condition_value_pattern === "performed" && tsbStatus === "tsb_found" && updatePerformedInput && updatePerformedInput.checked) {
+                            evaluationResult = true;
+                        } else if (conditionalStep.condition_value_pattern === "not_performed" && (tsbStatus === "no_tsb" || (tsbStatus === "tsb_found" && updatePerformedInput && !updatePerformedInput.checked))) {
+                            evaluationResult = true;
+                        }
+                    }
+
+                    if (evaluationResult) {
+                        console.log(`[DEMO LOG] Condition met for step ${stepId}: "${conditionalStep.condition_key}" is "${conditionalStep.condition_value_pattern}". Action: "${conditionalStep.instruction}"`);
+                        // In a real application, the API would now return these specific steps.
+                        // For this demo, we just log and continue to the next overall step.
+                        conditionMet = true;
+                        break;
+                    }
+                }
+                 if (!conditionMet && currentStepData.conditional_steps.length > 0) {
+                     console.log(`[DEMO LOG] No specific condition met for step ${stepId}. Continuing general flow.`);
+                 }
+            }
+
+
+            // Move to the next step in the flattened list
+            const currentGlobalIndex = getGlobalStepIndex(stepId);
+            if (currentGlobalIndex !== -1) {
+                currentStepInGlobalList = currentGlobalIndex + 1; // Increment to get the next step
+                highlightCurrentStep(currentStepInGlobalList);
+            }
+        }
+    </script>
+</body>
+</html>
